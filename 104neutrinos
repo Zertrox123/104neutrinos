@@ -1,0 +1,81 @@
+#!/usr/bin/python3
+
+##
+## EPITECH PROJECT, 2023
+## delivery
+## File description:
+## 104neutrinos.py
+##
+
+import sys
+from math import *
+
+
+def number_of_value(n):
+    print(f"    Number of values: {n + 1}")
+    return n + 1
+
+def standard_deviation(root, arith):
+    var = root**2 - arith**2
+    var2 = sqrt(var)
+    return var2
+
+def arithmetic_mean(n, a, next_value):
+    x = ((a * n) + next_value) / (n + 1)
+    return x
+
+def root_mean_square(n, a, sd, next_value):
+    x = a**2 + sd**2
+    x = x * n
+    x = x + (sqrt(a**2 + sd**2))
+    x = sqrt(x / n + 1)
+    return x
+
+def harmonic_mean(n, h, next_value):
+    x = (n + 1) / (n / h + (1 / next_value))
+    return x
+
+def setup(n, a, h, sd):
+    next_value = int(input("Enter next value: "))
+    if next_value != "END":
+        num = number_of_value(n)
+        ab = harmonic_mean(n, h, next_value)
+        b = arithmetic_mean(n, a, int(next_value))
+        c = root_mean_square(n, b, sd, next_value)
+        d = standard_deviation(c, b)
+        print(f"    Standard deviation: {d:.2f}")
+        print(f"    Arithmetic mean: {b:.2f}")
+        print(f"    Root mean square: {c:.2f}")
+        print(f"    Harmonic mean: {ab:.2f}")
+        print()
+        return num
+    else:
+        return -1
+
+if len(sys.argv) > 1 and sys.argv[1] == "-h":
+    print("USAGE")
+    print("  ./104neutrinos n a h sd\n")
+    print("DESCRIPTION")
+    print("  n     number of values")
+    print("  a     arithmetic mean")
+    print("  h     harmonic mean")
+    print("  sd     standard deviation")
+    exit(0)
+
+if len(sys.argv) < 5 :
+    exit(84)
+
+try:
+    n = int(sys.argv[1])
+    a = float(sys.argv[2])
+    h = float(sys.argv[3])
+    sd = float(sys.argv[4])
+    if n < 0 or a < 0 or h < 0 or sd < 0:
+        raise ValueError("Les valeurs doivent etre positives !")
+    if len(sys.argv) > 5:
+        raise ValueError("Seulement 4 valeurs doivent être rentrées !")
+    num = setup(n, a, h, sd)
+    while (num != -1):
+        num = setup(num, a, h, sd)
+except IndexError:
+    exit(84)
