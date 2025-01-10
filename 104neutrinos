@@ -4,12 +4,11 @@
 ## EPITECH PROJECT, 2023
 ## delivery
 ## File description:
-## 104neutrinos.py
+## 104neutrinos
 ##
 
 import sys
-from math import *
-
+from math import sqrt
 
 def number_of_value(n):
     print(f"    Number of values: {n + 1}")
@@ -36,12 +35,21 @@ def harmonic_mean(n, h, next_value):
     return x
 
 def setup(n, a, h, sd):
-    next_value = int(input("Enter next value: "))
+    next_value = input("Enter next value: ")
     if next_value != "END":
+        try:
+            int(next_value)
+        except ValueError:
+            if len(next_value) == 0:
+                exit(0)
+            else:
+                exit(84)
+        if int(next_value) < 0:
+            exit(84)
         num = number_of_value(n)
-        ab = harmonic_mean(n, h, next_value)
+        ab = harmonic_mean(n, h, int(next_value))
         b = arithmetic_mean(n, a, int(next_value))
-        c = root_mean_square(n, b, sd, next_value)
+        c = root_mean_square(n, b, sd, int(next_value))
         d = standard_deviation(c, b)
         print(f"    Standard deviation: {d:.2f}")
         print(f"    Arithmetic mean: {b:.2f}")
@@ -52,30 +60,34 @@ def setup(n, a, h, sd):
     else:
         return -1
 
-if len(sys.argv) > 1 and sys.argv[1] == "-h":
-    print("USAGE")
-    print("  ./104neutrinos n a h sd\n")
-    print("DESCRIPTION")
-    print("  n     number of values")
-    print("  a     arithmetic mean")
-    print("  h     harmonic mean")
-    print("  sd     standard deviation")
-    exit(0)
+def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "-h":
+        print("USAGE")
+        print("  ./104neutrinos n a h sd\n")
+        print("DESCRIPTION")
+        print("  n     number of values")
+        print("  a     arithmetic mean")
+        print("  h     harmonic mean")
+        print("  sd     standard deviation")
+        exit(0)
 
-if len(sys.argv) < 5 :
-    exit(84)
+    if len(sys.argv) < 5 :
+        exit(84)
 
-try:
-    n = int(sys.argv[1])
-    a = float(sys.argv[2])
-    h = float(sys.argv[3])
-    sd = float(sys.argv[4])
-    if n < 0 or a < 0 or h < 0 or sd < 0:
-        raise ValueError("Les valeurs doivent etre positives !")
-    if len(sys.argv) > 5:
-        raise ValueError("Seulement 4 valeurs doivent être rentrées !")
-    num = setup(n, a, h, sd)
-    while (num != -1):
-        num = setup(num, a, h, sd)
-except IndexError:
-    exit(84)
+    try:
+        n = int(sys.argv[1])
+        a = float(sys.argv[2])
+        h = float(sys.argv[3])
+        sd = float(sys.argv[4])
+        if n < 0 or a < 0 or h < 0 or sd < 0:
+            exit(84)
+        if len(sys.argv) > 5:
+            exit(84)
+        while (n != -1):
+            n = setup(n, a, h, sd)
+    except IndexError:
+        exit(84)
+    except KeyboardInterrupt:
+        exit(0)
+
+main()
